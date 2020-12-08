@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/python2 -u
 #
 # pagekite_test.py, Copyright 2010, The PageKites Project ehf.
 #                                   http://beanstalks-project.net/

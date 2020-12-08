@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 import time
 from datetime import date
 from setuptools import setup

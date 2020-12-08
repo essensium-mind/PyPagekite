@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/python2 -u
 #
 # droiddemo.py, Copyright 2010-2013, The Beanstalks Project ehf.
 #                                    http://beanstalks-project.net/
