@@ -3416,6 +3416,7 @@ class PageKite(object):
     def unregister(c):
       try:
         c.cleanup_callback = None
+        c.mask = None
         epoll.unregister(c.fd)  # Important: Use c.fd, not fd!
       except (IOError, TypeError):
         # Failing to unregister is OK, ignore
@@ -3444,7 +3445,8 @@ class PageKite(object):
             # Trigger removal of c.fd, if it was still in the epoll.
             fd, mask = None, 0
 
-        if mask:
+        if mask and mask != c.mask:
+          c.mask = mask
           try:
             epoll.modify(fd, mask)
           except IOError:
@@ -3453,6 +3455,7 @@ class PageKite(object):
               c.cleanup_callback = unregister
             except (IOError, TypeError):
               evs.append((fd, select.EPOLLHUP))  # Error == HUP
+              c.mask = None
         else:
           unregister(c)
 
