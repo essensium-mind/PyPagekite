@@ -97,6 +97,9 @@ class Selectable(object):
     self.dead = False
     self.ui = ui
 
+    # For Epoll
+    self.cleanup_callback = None
+
     # Quota-related stuff
     self.quota = None
     self.q_conns = None
@@ -152,6 +155,8 @@ class Selectable(object):
     SELECTABLES[self.gsid] = '%s %s' % (self.countas, self)
 
   def Cleanup(self, close=True):
+    if self.cleanup_callback:
+      self.cleanup_callback(self)
     self.peeked = self.zw = ''
     self.Die(discard_buffer=True)
     if close:
