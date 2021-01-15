@@ -3175,6 +3175,9 @@ class PageKite(object):
     return kill and True or False
 
   def CreateTunnels(self, conns):
+    if not self.backends:
+      return 0, 0
+
     live_servers = conns.TunnelServers()
     failures = 0
     connections = 0
