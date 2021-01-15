@@ -51,7 +51,7 @@ class Tunnel(ChunkParser):
 
   def __init__(self, conns):
     ChunkParser.__init__(self, ui=conns.config.ui)
-    self.server_info = ['x.x.x.x:x', [], [], [], False, False, None]
+    self.server_info = [':', [], [], [], False, False, None]
     self.Init(conns)
     # We want to be sure to read the entire chunk at once, including
     # headers to save cycles, so we double the size we're willing to
@@ -487,12 +487,13 @@ class Tunnel(ChunkParser):
       if 'motd' in args and args['motd'][0]:
         config.ui.NotifyMOTD(sname, args['motd'][0])
 
-    # Log the server capabilities
-    logging.Log([
-      ('FE', sname),
-      ('ports', ','.join(self.server_info[self.S_PORTS])),
-      ('protocols', ','.join(self.server_info[self.S_PROTOS])),
-      ('raw_ports', ','.join(self.server_info[self.S_RAW_PORTS] or []))])
+    # Log the server capabilities if server is set
+    if sname != ':':
+      logging.Log([
+        ('FE', sname),
+        ('ports', ','.join(self.server_info[self.S_PORTS])),
+        ('protocols', ','.join(self.server_info[self.S_PROTOS])),
+        ('raw_ports', ','.join(self.server_info[self.S_RAW_PORTS] or []))])
 
     # FIXME: Really, we should keep track of quota dimensions for
     #        each kite.  At the moment that isn't even reported...
